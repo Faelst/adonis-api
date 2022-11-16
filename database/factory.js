@@ -24,3 +24,18 @@ Factory.blueprint("App/Models/User", (faker, i, data = {}) => {
     data
   );
 });
+
+Factory.blueprint("App/Models/RoverLogs", (faker, i, data = {}) => {
+  return Object.assign(
+    {
+      rover_x: 1,
+      rover_y: 1,
+      rover_direction: "N",
+      rover_commands: "ML",
+      rover_final_x: 0,
+      rover_final_y: 1,
+      rover_final_direction: "W",
+    },
+    data
+  );
+});

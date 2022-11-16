@@ -3,7 +3,6 @@ const Validations = require("../../app/Controllers/Http/Helpers/Validations");
 const Rover = require("../../app/Services/Rover");
 
 const { test, trait } = use("Test/Suite")("Controller/Rover");
-const RoverLogs = use("App/Models/RoverLogs");
 const Event = use("Event");
 const Factory = use("Factory");
 
@@ -171,4 +170,12 @@ test("Should return 200 and EMIT EVENT when request body is valid", async ({
   Validations.prototype.isInvalidInstruction.restore();
   Rover.prototype.sendCommands.restore();
   Event.fire.restore();
+});
+
+test("Should be able to list all rover logs", async ({ client }) => {
+  await Factory.model("App/Models/RoverLogs").createMany(10);
+
+  const response = await client.get("/rover/logs").end();
+
+  response.assertStatus(200);
 });
