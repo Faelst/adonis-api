@@ -3,6 +3,9 @@ const { test, trait } = use("Test/Suite")("Session");
 /** @type {import('@adonisjs/lucid/src/Factory')} */
 const User = use("App/Models/User");
 
+/** @type {import('@adonisjs/lucid/src/Factory')} */
+const Factory = use("Factory");
+
 trait("Test/ApiClient");
 
 test("Should return JWT Token when session created", async ({ client }) => {
@@ -12,7 +15,7 @@ test("Should return JWT Token when session created", async ({ client }) => {
     password: "any_password",
   };
 
-  const user = await User.create(fakeUser);
+  const user = await Factory.model("App/Models/User").create(fakeUser);
 
   const response = await client
     .post("/sessions")
