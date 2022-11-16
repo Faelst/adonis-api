@@ -4,6 +4,7 @@ const Rover = require("../../Services/Rover");
 const Validations = require("./Helpers/Validations");
 const SplitInstructions = require("./Helpers/SplitInstructions");
 
+const RoverLogsModel = use("App/Models/RoverLogs");
 const { validateAll } = use("Validator");
 const Event = use("Event");
 
@@ -46,12 +47,22 @@ class RoverController {
 
     const result = rover.sendCommands(instructions);
 
-    Event.fire("new:rover", result);
+    Event.fire("new:rover", {
+      result,
+      coordinates,
+      instructions: instructionsString,
+    });
 
     return response.status(200).send({
       result,
       formattedResult: `${result.x} ${result.y} ${result.direction}`,
     });
+  }
+
+  async getLogs({ response }) {
+    const logs = await RoverLogsModel.query().fetch();
+
+    return response.status(200).send(logs);
   }
 }
 

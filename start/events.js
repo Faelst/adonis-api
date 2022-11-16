@@ -1,3 +1,3 @@
 const Event = use("Event");
 
-Event.on("new:rover", ["Rover.registerCommand"]);
+Event.on("new:rover", ["Rover.registerRoverLog"]);

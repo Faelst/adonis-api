@@ -9,3 +9,4 @@ Route.post("sessions", "SessionController.store");
 
 // Rover routes
 Route.post("rover/send-commands", "RoverController.move");
+Route.get("rover/get-logs", "RoverController.getLogs");
