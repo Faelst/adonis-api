@@ -39,3 +39,11 @@ Factory.blueprint("App/Models/RoverLogs", (faker, i, data = {}) => {
     data
   );
 });
+
+Factory.blueprint("App/Models/Tokens", (faker, i, data = {}) => {
+  return Object.assign({
+    type: data.type || "bearer",
+    token: data.token || faker.string({ length: 40 }),
+    ...data,
+  });
+});

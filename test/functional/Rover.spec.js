@@ -7,12 +7,16 @@ const Event = use("Event");
 const Factory = use("Factory");
 
 trait("Test/ApiClient");
+trait("Auth/Client");
 
 test("Should return 400 when request body is not valid", async ({ client }) => {
+  const user = await Factory.model("App/Models/User").create();
+
   const invalidBody = {};
 
   const response = await client
     .post("/rover/send-commands")
+    .loginVia(user)
     .send(invalidBody)
     .end();
 
@@ -37,6 +41,8 @@ test("Should return 400 when request body is not valid", async ({ client }) => {
 test("Should return 400 when request body are not valid", async ({
   client,
 }) => {
+  const user = await Factory.model("App/Models/User").create();
+
   const invalidBodies = [
     {
       coordinates: {
@@ -64,6 +70,7 @@ test("Should return 400 when request body are not valid", async ({
   for (const invalidBody of invalidBodies) {
     const response = await client
       .post("/rover/send-commands")
+      .loginVia(user)
       .send(invalidBody)
       .end();
 
@@ -77,6 +84,8 @@ test("Should return 400 when request body are not valid", async ({
 test("Should return 400 when isValidInstruction is true", async ({
   client,
 }) => {
+  const user = await Factory.model("App/Models/User").create();
+
   sinon.stub(Validations.prototype, "isInvalidInstruction").returns(true);
 
   const invalidBody = {
@@ -91,6 +100,7 @@ test("Should return 400 when isValidInstruction is true", async ({
   const response = await client
     .post("/rover/send-commands")
     .send(invalidBody)
+    .loginVia(user)
     .end();
 
   response.assertStatus(400);
@@ -102,6 +112,8 @@ test("Should return 400 when isValidInstruction is true", async ({
 });
 
 test("Should return 400 when isValidPosition is false", async ({ client }) => {
+  const user = await Factory.model("App/Models/User").create();
+
   sinon.stub(Validations.prototype, "isInvalidInstruction").returns(false);
   sinon.stub(Validations.prototype, "isValidPosition").returns(false);
 
@@ -116,6 +128,7 @@ test("Should return 400 when isValidPosition is false", async ({ client }) => {
 
   const response = await client
     .post("/rover/send-commands")
+    .loginVia(user)
     .send(invalidBody)
     .end();
 
@@ -131,6 +144,8 @@ test("Should return 400 when isValidPosition is false", async ({ client }) => {
 test("Should return 200 and EMIT EVENT when request body is valid", async ({
   client,
 }) => {
+  const user = await Factory.model("App/Models/User").create();
+
   sinon.stub(Validations.prototype, "isInvalidInstruction").returns(false);
   sinon.stub(Validations.prototype, "isValidPosition").returns(true);
   sinon.stub(Rover.prototype, "sendCommands").returns({
@@ -151,6 +166,7 @@ test("Should return 200 and EMIT EVENT when request body is valid", async ({
 
   const response = await client
     .post("/rover/send-commands")
+    .loginVia(user, "jwt")
     .send(validBody)
     .end();
 
@@ -173,9 +189,11 @@ test("Should return 200 and EMIT EVENT when request body is valid", async ({
 });
 
 test("Should be able to list all rover logs", async ({ client }) => {
+  const user = await Factory.model("App/Models/User").create();
+
   await Factory.model("App/Models/RoverLogs").createMany(10);
 
-  const response = await client.get("/rover/logs").end();
+  const response = await client.get("/rover/logs").loginVia(user, "jwt").end();
 
   response.assertStatus(200);
 });

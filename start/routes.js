@@ -8,5 +8,9 @@ Route.post("authenticate", "AuthController.authenticate");
 Route.post("sessions", "SessionController.store");
 
 // Rover routes
-Route.post("rover/send-commands", "RoverController.move");
-Route.get("rover/logs", "RoverController.getLogs");
+
+Route.group(() => {
+  Route.get("rover/logs", "RoverController.getLogs");
+
+  Route.post("rover/send-commands", "RoverController.move");
+}).middleware(["auth"]);
