@@ -1,8 +1,8 @@
 {
-  "name": "adonis-api-app",
+  "name": "mars-rove-js-test",
   "version": "4.1.0",
   "adonis-version": "4.1.0",
-  "description": "Adonisjs boilerplate for API server with pre-configured JWT",
+  "description": "Is a TDD API to resolve a test of Mars Rover in JavaScript",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
