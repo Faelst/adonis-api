@@ -32,10 +32,6 @@ class RoverController {
       return response.status(400).send({ error: "Invalid coordinates" });
     }
 
-    if (!instructionsString) {
-      return response.status(400).send({ error: "Invalid instructions" });
-    }
-
     if (this.validations.isInvalidInstruction(instructionsString)) {
       return response.status(400).send({ error: "Invalid instructions" });
     }
@@ -43,26 +39,19 @@ class RoverController {
     const instructions = new SplitInstructions(instructionsString).get();
 
     if (!this.validations.isValidPosition(coordinates)) {
-      return response.status(400).send({ error: "Invalid coordinates" });
+      return response.status(400).send({ error: "Invalid Position" });
     }
 
     const rover = new Rover(coordinates);
 
     const result = rover.sendCommands(instructions);
 
-    // FIRULINHA QUE TRABALHA COM O NODE EVENT EMIT
     Event.fire("new:rover", result);
 
     return response.status(200).send({
       result,
       formattedResult: `${result.x} ${result.y} ${result.direction}`,
     });
-  }
-
-  registerCommand({ request, response }) {
-    const { result } = request.all();
-
-    console.log(result);
   }
 }
 
