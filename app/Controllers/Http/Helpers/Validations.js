@@ -9,14 +9,10 @@ class Validations {
     return true;
   }
 
-  isValidInstruction(instruction) {
+  isInvalidInstruction(instruction) {
     const validInstructions = ["L", "R", "M"];
 
-    if (validInstructions.includes(instruction)) {
-      return false;
-    }
-
-    return true;
+    return validInstructions.includes(instruction);
   }
 }
 

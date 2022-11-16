@@ -36,7 +36,7 @@ class RoverController {
       return response.status(400).send({ error: "Invalid instructions" });
     }
 
-    if (!this.validations.isValidInstruction(instructionsString)) {
+    if (this.validations.isInvalidInstruction(instructionsString)) {
       return response.status(400).send({ error: "Invalid instructions" });
     }
 
