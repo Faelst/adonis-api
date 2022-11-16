@@ -3,7 +3,9 @@ const Validations = require("../../app/Controllers/Http/Helpers/Validations");
 const Rover = require("../../app/Services/Rover");
 
 const { test, trait } = use("Test/Suite")("Controller/Rover");
+const RoverLogs = use("App/Models/RoverLogs");
 const Event = use("Event");
+const Factory = use("Factory");
 
 trait("Test/ApiClient");
 

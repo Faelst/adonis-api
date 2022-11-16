@@ -15,7 +15,7 @@ test("Should return JWT Token when session created", async ({ client }) => {
     password: "any_password",
   };
 
-  const user = await Factory.model("App/Models/User").create(fakeUser);
+  await Factory.model("App/Models/User").create(fakeUser);
 
   const response = await client
     .post("/sessions")
