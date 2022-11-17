@@ -3,11 +3,12 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use("Route");
 
-Route.get("/", "Documents.login");
-Route.get("/logs", "Documents.logs");
+Route.get("/", "AuthController.showLogin");
+Route.post("authenticate", "AuthController.authenticate");
+
+Route.get("/logs", "RoverController.showLogs");
 
 Route.post("register", "AuthController.register");
-Route.post("authenticate", "AuthController.authenticate");
 
 // Rover routes
 Route.group(() => {

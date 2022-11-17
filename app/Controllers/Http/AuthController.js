@@ -15,7 +15,7 @@ class AuthController {
     return token;
   }
 
-  async authenticate({ request, auth }) {
+  async authenticate({ request, auth, response }) {
     const { email, password } = request.all();
 
     const token = await auth.attempt(email, password);
@@ -24,7 +24,11 @@ class AuthController {
 
     await User.query().where("id", user.id).update({ token: token.token });
 
-    return token;
+    return response.redirect("/logs", token);
+  }
+
+  showLogin({ view }) {
+    return view.render("login");
   }
 }
 

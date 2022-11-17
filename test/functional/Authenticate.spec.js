@@ -23,8 +23,5 @@ test("Should return JWT Token when session created", async ({ client }) => {
     .end();
 
   response.assertStatus(200);
-  response.assertJSONSubset({
-    type: "bearer",
-    token: response.body.token,
-  });
+  response.assertRedirect("/logs");
 });

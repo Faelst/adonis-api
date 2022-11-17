@@ -3,6 +3,7 @@
 const Rover = require("../../Services/Rover");
 const Validations = require("./Helpers/Validations");
 const SplitInstructions = require("./Helpers/SplitInstructions");
+const dayjs = require("dayjs");
 
 const RoverLogsModel = use("App/Models/RoverLogs");
 const { validateAll } = use("Validator");
@@ -63,6 +64,20 @@ class RoverController {
     const logs = await RoverLogsModel.query().fetch();
 
     return response.status(200).send(logs);
+  }
+
+  async showLogs({ view, response }) {
+    const data = await RoverLogsModel.query().fetch();
+
+    const logs = data.toJSON().map((log) => ({
+      ...log,
+      inicialPosition: `${log.rover_x} ${log.rover_y} ${log.rover_direction}`,
+      commands: log.rover_commands,
+      finalPosition: `${log.rover_final_x} ${log.rover_final_y} ${log.rover_final_direction}`,
+      createDate: dayjs(log.created_at).format("DD/MM/YYYY HH:mm:ss"),
+    }));
+
+    return view.render("logs", { logs: logs });
   }
 }
 
