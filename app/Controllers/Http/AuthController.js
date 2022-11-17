@@ -24,7 +24,11 @@ class AuthController {
 
     await User.query().where("id", user.id).update({ token: token.token });
 
-    return response.redirect("/logs", token);
+    if (request.request.headers["user-agent"].includes("Mozilla")) {
+      return response.redirect("/logs");
+    }
+
+    return token;
   }
 
   showLogin({ view }) {

@@ -13,6 +13,5 @@ Route.post("register", "AuthController.register");
 // Rover routes
 Route.group(() => {
   Route.get("rover/logs", "RoverController.getLogs");
-
   Route.post("rover/send-commands", "RoverController.move");
 }).middleware(["auth"]);

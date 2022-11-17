@@ -20,6 +20,38 @@ http://localhost:3333/ => Login router
 http://localhost:3333/logs => Rover Logs router
 ```
 
+## How to send rover commands:
+
+1. You need get TOKEN
+
+```bash
+curl --request POST \
+  --url http://127.0.0.1:3333/authenticate \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"email": "user@test.com",
+	"password": "12345"
+  }'
+```
+
+2. Set TOKEN in header and send commands
+
+```bash
+curl --request POST \
+  --url http://127.0.0.1:3333/rover/send-commands \
+  --header 'Authorization: Bearer TOKEN' \
+  --header 'Content-Type: application/json' \
+  --data
+  '{
+	  "coordinates": {
+		  "x": 0,
+		  "y": 0,
+		  "direction": "N"
+	  },
+	  "instructions": ""
+   }'
+```
+
 ## Exercise Test:
 
 ```
