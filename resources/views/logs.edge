@@ -1,0 +1,32 @@
+@layout("layouts/main")
+
+@section('body')
+<div class="container my-5">
+  <h2>Rover Logs</h2>
+
+  <hr>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Inicial Position</th>
+        <th scope="col">Commands</th>
+        <th scope="col">Result</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      @each(log in logs)
+      <tr>
+        <th scope="row">{{log.id}}</th>
+        <td>{{log.inicialPosition}}</td>
+        <td>{{log.commands}}</td>
+        <td>{{log.finalPosition}}</td>
+        <td>{{log.createDate}}</td>
+      </tr>
+      @endeach
+    </tbody>
+  </table>
+</div>
+@endsection

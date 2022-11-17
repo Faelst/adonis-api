@@ -1,4 +1,4 @@
-const { test, trait } = use("Test/Suite")("Controller/Session");
+const { test, trait } = use("Test/Suite")("Controller/Authenticate");
 
 /** @type {import('@adonisjs/lucid/src/Factory')} */
 const Factory = use("Factory");
@@ -15,7 +15,7 @@ test("Should return JWT Token when session created", async ({ client }) => {
   await Factory.model("App/Models/User").create(fakeUser);
 
   const response = await client
-    .post("/sessions")
+    .post("/authenticate")
     .send({
       email: fakeUser.email,
       password: fakeUser.password,
